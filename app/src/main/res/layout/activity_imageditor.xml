@@ -8,15 +8,24 @@
     <com.example.naveen.recyclerview.Utility.PaintView
         android:id="@+id/pv_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/bt_save" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gd_one"
+        android:background="@color/design_default_color_primary_dark"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/gd_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".90"
+        ></android.support.constraint.Guideline>
     <Button
         android:id="@+id/bt_save"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:text="@string/helloo"
-        app:layout_constraintTop_toTopOf="@+id/pv_main" />
+        app:layout_constraintTop_toBottomOf="@+id/gd_one"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
