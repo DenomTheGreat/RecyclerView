@@ -16,13 +16,17 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 
 public class PaintView extends View {
 
-
+    private Canvas drawCanvas;
     private Path path = new Path();
     private Paint brush = new Paint();
+    private List<Path> moveList=null;
+    private List<Path> undoList=null;
+    private List<Path> currentMoveList=null;
 
 
     public PaintView(Context context) {
@@ -53,22 +57,34 @@ public class PaintView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 path.moveTo(pointX, pointY);
-                return true;
+                break;
             case MotionEvent.ACTION_MOVE:
                 path.lineTo(pointX, pointY);
+                currentMoveList.add(path);
+                break;
             case MotionEvent.ACTION_UP:
+                path.lineTo(pointX,pointY);
+                drawCanvas.drawPath(path,brush);
+                moveList.add(path);
+                currentMoveList.clear();
                 break;
             default:
                 return false;
 
         }
-        postInvalidate();
+        invalidate();
         return false;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawPath(path, brush);
+
+        for(Path path : currentMoveList){
+            canvas.drawPath(path, brush);
+        }
+        for (Path  path:moveList){
+            canvas.drawPath(path,brush);
+        }
     }
 
     public Bitmap saveView(){
@@ -88,7 +104,12 @@ public class PaintView extends View {
 
         return bitmap;
     }
-
+    public void undo(){
+        if(moveList.size()>0){
+            undoList.add(moveList.remove(moveList.size()-1));
+            invalidate();
+        }
+    }
 
 
 }
