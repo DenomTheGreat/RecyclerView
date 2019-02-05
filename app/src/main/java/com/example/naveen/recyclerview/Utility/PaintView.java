@@ -24,15 +24,13 @@ public class PaintView extends View {
     private Canvas drawCanvas;
     private Path path = new Path();
     private Paint brush = new Paint();
-    private List<Path> moveList=null;
+    private List<Path> moveList;
     private List<Path> undoList=null;
-    private List<Path> currentMoveList=null;
+    private List<Path> currentMoveList;
 
 
     public PaintView(Context context) {
         super(context);
-
-
     }
 
     public PaintView(Context context, AttributeSet attrs) {
@@ -66,6 +64,7 @@ public class PaintView extends View {
                 path.lineTo(pointX,pointY);
                 drawCanvas.drawPath(path,brush);
                 moveList.add(path);
+                path = new Path();
                 currentMoveList.clear();
                 break;
             default:
@@ -79,12 +78,16 @@ public class PaintView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        for(Path path : currentMoveList){
-            canvas.drawPath(path, brush);
+        try{
+        for(Path path1:currentMoveList){
+            canvas.drawPath(path1, brush);
         }
-        for (Path  path:moveList){
-            canvas.drawPath(path,brush);
+        for(Path  path2:moveList){
+            canvas.drawPath(path2,brush);
+        }}catch (NullPointerException e){
+            e.printStackTrace();
         }
+        super.onDraw(canvas);
     }
 
     public Bitmap saveView(){
