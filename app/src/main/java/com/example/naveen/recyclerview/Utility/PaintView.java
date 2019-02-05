@@ -1,6 +1,5 @@
 package com.example.naveen.recyclerview.Utility;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,22 +10,23 @@ import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class PaintView extends View {
 
+    private Bitmap canvasBitmap;
     private Canvas drawCanvas;
     private Path path = new Path();
     private Paint brush = new Paint();
-    private List<Path> moveList;
+    private List<Path> moveList=new ArrayList<>();
     private List<Path> undoList=null;
-    private List<Path> currentMoveList;
+    private List<Path> currentMoveList=new ArrayList<>();
 
 
     public PaintView(Context context) {
@@ -55,10 +55,12 @@ public class PaintView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 path.moveTo(pointX, pointY);
-                break;
+                Toast.makeText(getContext(),"down",Toast.LENGTH_SHORT).show();
+                return true;
             case MotionEvent.ACTION_MOVE:
                 path.lineTo(pointX, pointY);
                 currentMoveList.add(path);
+                Toast.makeText(getContext(),"move",Toast.LENGTH_SHORT).show();
                 break;
             case MotionEvent.ACTION_UP:
                 path.lineTo(pointX,pointY);
@@ -66,6 +68,7 @@ public class PaintView extends View {
                 moveList.add(path);
                 path = new Path();
                 currentMoveList.clear();
+                Toast.makeText(getContext(),"up",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 return false;
@@ -78,13 +81,14 @@ public class PaintView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        canvas.drawPath(path,brush);
         try{
-        for(Path path1:currentMoveList){
-            canvas.drawPath(path1, brush);
-        }
-        for(Path  path2:moveList){
-            canvas.drawPath(path2,brush);
-        }}catch (NullPointerException e){
+            for(Path path1:currentMoveList){
+                canvas.drawPath(path1, brush);
+            }
+            for(Path  path2:moveList){
+                canvas.drawPath(path2,brush);
+            }}catch (NullPointerException e){
             e.printStackTrace();
         }
         super.onDraw(canvas);
