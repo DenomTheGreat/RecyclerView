@@ -1,6 +1,5 @@
 package com.example.naveen.recyclerview.Utility;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,26 +10,33 @@ import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 public class PaintView extends View {
 
-    private Canvas drawCanvas;
+
     private Path path = new Path();
     private Paint brush = new Paint();
-    private List<Path> moveList;
-    private List<Path> undoList=null;
-    private List<Path> currentMoveList;
+    private ArrayList<Path> paths = new ArrayList<Path>();
+    private ArrayList<Path> undonePaths = new ArrayList<Path>();
 
 
     public PaintView(Context context) {
         super(context);
+
+
     }
 
     public PaintView(Context context, AttributeSet attrs) {
@@ -54,41 +60,36 @@ public class PaintView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                undonePaths.clear();
+                path.reset();
                 path.moveTo(pointX, pointY);
-                break;
+                return true;
             case MotionEvent.ACTION_MOVE:
                 path.lineTo(pointX, pointY);
-                currentMoveList.add(path);
                 break;
             case MotionEvent.ACTION_UP:
                 path.lineTo(pointX,pointY);
-                drawCanvas.drawPath(path,brush);
-                moveList.add(path);
+                paths.add(path);
                 path = new Path();
-                currentMoveList.clear();
                 break;
+
             default:
                 return false;
 
         }
-        invalidate();
+        postInvalidate();
         return false;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-        try{
-        for(Path path1:currentMoveList){
-            canvas.drawPath(path1, brush);
-        }
-        for(Path  path2:moveList){
-            canvas.drawPath(path2,brush);
-        }}catch (NullPointerException e){
-            e.printStackTrace();
-        }
         super.onDraw(canvas);
+        for(Path p : paths){
+            canvas.drawPath(p,brush);
+        }
+        canvas.drawPath(path,brush);
     }
+
 
     public Bitmap saveView(){
 
@@ -107,10 +108,12 @@ public class PaintView extends View {
 
         return bitmap;
     }
-    public void undo(){
-        if(moveList.size()>0){
-            undoList.add(moveList.remove(moveList.size()-1));
+    public void onClickUndo(){
+        if(paths.size()>0){
+            undonePaths.add(paths.remove(paths.size()-1));
             invalidate();
+        }else {
+            Toast.makeText(getContext(),"Draw smth first!!",Toast.LENGTH_SHORT).show();
         }
     }
 

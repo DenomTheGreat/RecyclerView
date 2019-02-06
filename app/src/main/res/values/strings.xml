@@ -2,6 +2,6 @@
     <string name="app_name">Paint</string>
     <string name="title">Title</string>
     <string name="todo">TODO</string>
-    <string name="helloo">hello</string>
+    <string name="undo">undo</string>
 
 </resources>
