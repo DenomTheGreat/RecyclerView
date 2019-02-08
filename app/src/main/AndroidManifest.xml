@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.PaintViewEditorActivity"
-            android:label="Paint1"></activity>
+            android:label="Paint1"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

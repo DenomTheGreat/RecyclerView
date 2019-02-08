@@ -8,9 +8,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -91,13 +94,13 @@ public class PaintView extends View {
     }
 
 
-    public Bitmap saveView(){
+    public void saveView(Context context){
 
-        Bitmap  bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+        /*Bitmap  bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
 
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/DCIM/Camera/imglolepic.png");
+        File file = new File(context.getExternalFilesDir(null).getAbsolutePath()+"imglolepic.png");
 
         try {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(file));
@@ -106,8 +109,9 @@ public class PaintView extends View {
             e.printStackTrace();
         }
 
-        return bitmap;
-    }
+        return bitmap;*/
+
+       }
     public void onClickUndo(){
         if(paths.size()>0){
             undonePaths.add(paths.remove(paths.size()-1));
