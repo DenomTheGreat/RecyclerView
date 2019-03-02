@@ -24,6 +24,8 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static android.content.ContentValues.TAG;
+
 
 public class PaintView extends View {
 
@@ -121,7 +123,8 @@ public class PaintView extends View {
         return bitmap;*/
         Gson gson = new Gson();
         String json = gson.toJson(pathPoints_list);
-        File file = new File(context.getFilesDir(),"save.txt");
+        File path = context.getFilesDir();
+        File file = new File(path,"save.txt");
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(json.getBytes());
@@ -134,6 +137,7 @@ public class PaintView extends View {
             e.printStackTrace();
             Toast.makeText(getContext(),"File not saved!",Toast.LENGTH_LONG).show();
         }
+        Log.i(TAG, "saveView: "+pathPoints_list.toString());
        }
     public void onClickUndo(){
         if(path_list.size()>0){

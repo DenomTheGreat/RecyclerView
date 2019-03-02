@@ -1,6 +1,8 @@
 package com.example.naveen.recyclerview.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Application;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +26,7 @@ public class PaintViewEditorActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paintView.onClickUndo();
+                paintView.saveView(getApplicationContext());
             }
         });
         if(getSupportActionBar()!=null){
