@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -23,8 +24,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import static android.content.ContentValues.TAG;
 
 
 public class PaintView extends View {
@@ -123,8 +122,7 @@ public class PaintView extends View {
         return bitmap;*/
         Gson gson = new Gson();
         String json = gson.toJson(pathPoints_list);
-        File path = context.getFilesDir();
-        File file = new File(path,"save.txt");
+        File file = new File(Environment.getExternalStorageDirectory(),"save.txt");
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(json.getBytes());
@@ -137,7 +135,6 @@ public class PaintView extends View {
             e.printStackTrace();
             Toast.makeText(getContext(),"File not saved!",Toast.LENGTH_LONG).show();
         }
-        Log.i(TAG, "saveView: "+pathPoints_list.toString());
        }
     public void onClickUndo(){
         if(path_list.size()>0){
