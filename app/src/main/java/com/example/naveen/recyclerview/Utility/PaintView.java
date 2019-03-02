@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -121,7 +122,7 @@ public class PaintView extends View {
         return bitmap;*/
         Gson gson = new Gson();
         String json = gson.toJson(pathPoints_list);
-        File file = new File(context.getFilesDir(),"save.txt");
+        File file = new File(Environment.getExternalStorageDirectory(),"save.txt");
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(json.getBytes());
