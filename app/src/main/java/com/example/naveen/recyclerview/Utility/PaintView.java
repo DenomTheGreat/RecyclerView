@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.naveen.recyclerview.Activity.MainActivity;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -125,7 +126,6 @@ public class PaintView extends View {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return bitmap;*/
         Gson gson = new Gson();
         String json = gson.toJson(pathPoints_list);
@@ -143,6 +143,7 @@ public class PaintView extends View {
             e.printStackTrace();
             Toast.makeText(getContext(),"File not saved!",Toast.LENGTH_LONG).show();
         }
+        MainActivity.AddListItem("title",Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"yoyo.txt");
        }
     public void onClickUndo(){
         if(path_list.size()>0){
@@ -159,18 +160,13 @@ public class PaintView extends View {
             FileInputStream fis = new FileInputStream(file);
             DataInputStream in = new DataInputStream(fis);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine="";
+            String strLine;
             while((strLine=br.readLine())!=null){
                 myData=myData+strLine;
             }
-            String []strings = myData.split("]]");
             Gson gson= new Gson();
             pathPoints_list= (ArrayList<ArrayList<float[]>>) gson.fromJson(myData,ArrayList.class);
-
-
-
             in.close();
-
             Toast.makeText(getContext(),"Saved!",Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -189,7 +185,6 @@ public class PaintView extends View {
             for(int j=1;j<saved_pathPoints.size();j++){
                 saved_path.lineTo(saved_pathPoints.get(i)[0],saved_pathPoints.get(i)[1]);
             }
-            canvas.draw(saved_path,brush);
         }
     }
 }

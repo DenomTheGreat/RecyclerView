@@ -20,8 +20,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private FloatingActionButton floatingActionButton;
-    private List<ListItem> listItems;
+    public static List<ListItem> listItems;
 
+    public static void AddListItem(String title,String address){
+        ListItem listItem = new ListItem(title,address);
+        listItems.add(listItem);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,16 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
         listItems = new ArrayList<>();
 
-        for(int i=0;i<10;i++){
+        /*for(int i=0;i<10;i++){
             ListItem listItem = new ListItem(
                     "Title"+(i+1),null
             );
             listItems.add(listItem);
-        }
+        }*/
 
         adapter = new Adapter(listItems,this);
 
         recyclerView.setAdapter(adapter);
+
+        
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
