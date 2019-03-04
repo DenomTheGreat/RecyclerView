@@ -122,7 +122,9 @@ public class PaintView extends View {
         return bitmap;*/
         Gson gson = new Gson();
         String json = gson.toJson(pathPoints_list);
-        File file = new File(Environment.getExternalStorageDirectory(),"save.txt");
+        File mPath = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"");
+        File file = new File(mPath.getAbsolutePath(),"save.txt");
+
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(json.getBytes());
@@ -142,6 +144,18 @@ public class PaintView extends View {
             invalidate();
         }else {
             Toast.makeText(getContext(),"Draw smth first!!",Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void Reconstruct(){
+        ArrayList<ArrayList<float[]>> saved_pathPoints_list = pathPoints_list;
+        for(int i=0;i<saved_pathPoints_list.size();i++){
+            ArrayList<float[]> saved_pathPoints=saved_pathPoints_list.get(i);
+            Path saved_path=new Path();
+            saved_path.moveTo(saved_pathPoints.get(0)[0],saved_pathPoints.get(0)[1]);
+            for(int j=1;j<saved_pathPoints.size();j++){
+                saved_path.lineTo(saved_pathPoints.get(i)[0],saved_pathPoints.get(i)[1]);
+            }
+            canvas.draw(saved_path,brush);
         }
     }
 }
