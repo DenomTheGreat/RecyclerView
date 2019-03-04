@@ -34,7 +34,7 @@ public class PaintViewEditorActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paintView.saveView(getApplicationContext());
+                paintView.readView(getApplicationContext());
             }
         });
         if(getSupportActionBar()!=null){

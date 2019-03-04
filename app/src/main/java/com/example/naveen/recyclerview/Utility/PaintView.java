@@ -17,12 +17,17 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -34,6 +39,8 @@ public class PaintView extends View {
     private ArrayList<Path> path_list = new ArrayList<Path>();
     private ArrayList<float[]> pathPoints = new ArrayList<>();
     private ArrayList<ArrayList<float[]>> pathPoints_list = new ArrayList<>();
+    File file;
+    private String myData="";
 
 
     public PaintView(Context context) {
@@ -122,9 +129,8 @@ public class PaintView extends View {
         return bitmap;*/
         Gson gson = new Gson();
         String json = gson.toJson(pathPoints_list);
-        File mPath = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"");
-        File file = new File(mPath.getAbsolutePath(),"save.txt");
 
+         file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"yoyo.txt");
         try{
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(json.getBytes());
@@ -144,6 +150,34 @@ public class PaintView extends View {
             invalidate();
         }else {
             Toast.makeText(getContext(),"Draw smth first!!",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void readView(Context applicationContext){
+        try {
+            file = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)),"yoyo.txt");
+            FileInputStream fis = new FileInputStream(file);
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine="";
+            while((strLine=br.readLine())!=null){
+                myData=myData+strLine;
+            }
+            String []strings = myData.split("]]");
+            Gson gson= new Gson();
+            pathPoints_list= (ArrayList<ArrayList<float[]>>) gson.fromJson(myData,ArrayList.class);
+
+
+
+            in.close();
+
+            Toast.makeText(getContext(),"Saved!",Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"Not Saved!",Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"Not Saved!",Toast.LENGTH_LONG).show();
         }
     }
     public void Reconstruct(){
