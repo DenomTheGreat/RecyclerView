@@ -9,4 +9,11 @@ public class ListItem {
         this.title = title;
         this.address=address;
     }
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 }

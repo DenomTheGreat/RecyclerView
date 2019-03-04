@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.naveen.recyclerview.R;
@@ -36,6 +37,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         ListItem listItem = listItems.get(position);
         viewHolder.textViewTitle.setText(listItem.getTitle());
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -48,12 +55,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         public TextView textViewTitle;
         public ImageView imageViewImage;
+        public LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewTitle = (TextView)itemView.findViewById(R.id.title);
             imageViewImage = (ImageView)itemView.findViewById(R.id.image);
+            linearLayout = (LinearLayout)itemView.findViewById(R.id.ll_item);
         }
     }
 }
