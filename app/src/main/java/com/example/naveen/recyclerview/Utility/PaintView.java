@@ -189,7 +189,6 @@ public class PaintView extends View {
             for(int j=1;j<saved_pathPoints.size();j++){
                 saved_path.lineTo(saved_pathPoints.get(i)[0],saved_pathPoints.get(i)[1]);
             }
-            canvas.draw(saved_path,brush);
         }
     }
 }

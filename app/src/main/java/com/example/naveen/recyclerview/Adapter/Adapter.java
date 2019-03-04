@@ -35,10 +35,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         ListItem listItem = listItems.get(position);
-
         viewHolder.textViewTitle.setText(listItem.getTitle());
-
-
 
     }
 
