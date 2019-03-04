@@ -3,18 +3,10 @@ package com.example.naveen.recyclerview.Utility;
 public class ListItem {
 
     private String title;
-    private String desc;
+    private String address;
 
-    public ListItem(String title, String desc) {
+    public ListItem(String title,String address) {
         this.title = title;
-        this.desc = desc;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDesc() {
-        return desc;
+        this.address=address;
     }
 }
